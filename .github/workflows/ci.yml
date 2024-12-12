@@ -1,0 +1,37 @@
+name: Python CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Клонування репозиторію
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Встановлення Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      # Встановлення залежностей
+      - name: Install dependencies
+        run: pip install pytest
+
+      # Запуск тестів
+      - name: Run tests
+        run: pytest
+
+      # Симуляція деплоя
+      - name: Deploy application
+        if: success() # Запускається тільки, якщо тести успішні
+        run: echo "Deployed"
